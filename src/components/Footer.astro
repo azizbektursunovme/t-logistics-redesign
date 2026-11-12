@@ -1,0 +1,53 @@
+---
+import { company, links, fullAddress } from '../data/site';
+import { url } from '../lib/url';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src={url('brand/mark-white.png')} width="156" height="84" alt="" loading="lazy" />
+        <p><strong>{company.name}</strong><br />Dry van carrier based in {company.city}, Missouri.</p>
+        <p>USDOT {company.dot}<br />MC {company.mc}</p>
+      </div>
+
+      <div class="footer-col">
+        <h2>Shippers</h2>
+        <ul>
+          <li><a href={url('services/')}>Services</a></li>
+          <li><a href={url('/#coverage')}>Coverage</a></li>
+          <li><a href={url('quote/')}>Get a quote</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h2>Drivers</h2>
+        <ul>
+          <li><a href={url('drivers/')}>Our trucks</a></li>
+          <li><a href={url('drivers/#apply')}>Apply to drive</a></li>
+          {links.fmcsa && <li><a href={links.fmcsa} rel="noopener" target="_blank">FMCSA record</a></li>}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h2>Contact</h2>
+        <ul>
+          <li><a href={company.phoneHref}>{company.phone}</a></li>
+          <li><a href={`mailto:${company.email}`}>{company.email}</a></li>
+          <li><a href={links.maps} rel="noopener" target="_blank">{fullAddress}</a></li>
+          <li>Dispatch answers 24/7</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <p>© 2023–{year} {company.legalName}. All rights reserved.</p>
+      <ul>
+        <li><a href={url('privacy/')}>Privacy Policy</a></li>
+        <li><a href={url('terms/')}>Terms of Service</a></li>
+        <li><a href={url('credits/')}>Photo credits</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

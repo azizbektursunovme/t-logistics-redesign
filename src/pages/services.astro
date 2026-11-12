@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import { company, primaryService, services } from '../data/site';
+import { url } from '../lib/url';
+---
+<Base
+  title="Services | T-LOGISTICS Inc"
+  description="Dry van full truckload, partial and LTL loads, door-to-door delivery, dedicated lanes and expedited freight from T-LOGISTICS Inc."
+  current="services"
+>
+  <section class="page-hero">
+    <Photo name="band-sunset" widths={[800, 1600]} sizes="100vw" width={1600} height={900} alt="" eager />
+    <div class="wrap page-hero__inner">
+      <h1>Freight services</h1>
+      <p class="lede">We run 53-foot dry vans. Every service below uses the same trucks, the same dispatch team and one phone number: {company.phone}.</p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href={url('quote/')}>Get a quote</a>
+        <a class="btn btn--light" href={company.phoneHref}>Call dispatch</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="dry-van">
+    <div class="wrap split">
+      <div class="split__copy">
+        <h2 id="dry-van">{primaryService.title}</h2>
+        <p>{primaryService.body}</p>
+        <h3>Freight we haul</h3>
+        <ul class="checks">
+          {primaryService.hauls.map((h) => <li>{h}</li>)}
+        </ul>
+      </div>
+      <Photo class="split__img" name="dryvan-side" sizes="(min-width: 900px) 560px, 100vw" alt="Side of a 53-foot dry van trailer on the highway" />
+    </div>
+  </section>
+
+  <section class="section section--soft" aria-labelledby="all-services">
+    <div class="wrap">
+      <div class="head-split">
+        <h2 id="all-services">How we can move your load</h2>
+        <p>Not sure which option fits? Send the lane and the load through the quote form and dispatch will suggest one.</p>
+      </div>
+      <ul class="svc-grid">
+        {services.map((s) => (
+          <li class="svc-item" id={s.id}>
+            <span class="feature__icon"><Icon name={s.icon} /></span>
+            <div>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div class="btn-row" style="margin-top:40px">
+        <a class="btn btn--primary" href={url('quote/')}>Get a quote</a>
+        <a class="btn btn--outline" href={company.phoneHref}>Call {company.phone}</a>
+      </div>
+    </div>
+  </section>
+</Base>

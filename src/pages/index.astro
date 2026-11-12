@@ -1,0 +1,150 @@
+---
+import Base from '../layouts/Base.astro';
+import HeroQuote from '../components/HeroQuote.astro';
+import UsMap from '../components/UsMap.astro';
+import Photo from '../components/Photo.astro';
+import Icon from '../components/Icon.astro';
+import { company, stats, services, reasons, regions, reviews, links } from '../data/site';
+import { url } from '../lib/url';
+
+const homeServices = services.filter((s) => s.photo);
+const heroDesktop = [960, 1440, 1920].map((w) => `${url(`photos/hero-${w}.webp`)} ${w}w`).join(', ');
+const heroMobile = [600, 900].map((w) => `${url(`photos/hero-m-${w}.webp`)} ${w}w`).join(', ');
+---
+<Base
+  title="T-LOGISTICS Inc | Dry van freight across all 48 states"
+  description={`FMCSA-authorized dry van carrier in Saint Charles, MO (USDOT ${company.dot}, MC ${company.mc}). Full and partial truckloads across all 48 contiguous states. Call ${company.phone}.`}
+  current="home"
+  preload={[
+    { srcset: heroMobile, sizes: '100vw', media: '(max-width: 959px)' },
+    { srcset: heroDesktop, sizes: '66vw', media: '(min-width: 960px)' },
+  ]}
+>
+  <section class="hero" aria-labelledby="hero-title">
+    <picture class="hero__media">
+      <source media="(max-width: 959px)" srcset={heroMobile} sizes="100vw" />
+      <img src={url('photos/hero-1440.webp')} srcset={heroDesktop} sizes="(min-width: 960px) 66vw, 100vw" width="1920" height="1080" alt="" fetchpriority="high" decoding="async" />
+    </picture>
+    <div class="wrap hero__inner">
+      <div class="hero__copy">
+        <h1 id="hero-title">Dry van freight across all 48 states</h1>
+        <p class="lede">
+          {company.name} is an FMCSA-authorized carrier based in {company.city}, Missouri.
+          Send us the lane and the load, and dispatch comes back with a rate.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={url('quote/')}>Get a quote</a>
+          <a class="btn btn--light" href={url('drivers/')}>Drive with us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap qq-wrap">
+    <HeroQuote />
+  </div>
+
+  <div class="wrap stats-wrap">
+    <ul class="stats" aria-label="Company facts">
+      {stats.map((s) => (
+        <li><span class="stats__value">{s.value}</span><span class="stats__label">{s.label}</span></li>
+      ))}
+      <li>
+        <span class="stats__ids">USDOT {company.dot}<br />MC {company.mc}</span>
+        <span class="stats__label">
+          {links.fmcsa ? <a href={links.fmcsa} target="_blank" rel="noopener">Check on FMCSA SAFER</a> : 'FMCSA authorized carrier'}
+        </span>
+      </li>
+    </ul>
+  </div>
+
+  <section class="section" aria-labelledby="services-title">
+    <div class="wrap">
+      <div class="head-split">
+        <h2 id="services-title">Freight services built around your lane</h2>
+        <p>We run 53-foot dry vans: full truckloads, partial loads and time-critical freight, door to door. One dispatch team and one phone number for every load.</p>
+      </div>
+      <ul class="cards">
+        {homeServices.map((s) => (
+          <li class="card">
+            <Photo class="card__img" name={s.photo!} alt="" />
+            <div class="card__body">
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div class="cards-foot">
+        <a class="btn btn--outline" href={url('services/')}>See all services</a>
+        <span class="muted">Also: GPS tracking on every truck and dedicated lanes for recurring freight.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--navy" id="coverage" aria-labelledby="coverage-title">
+    <div class="wrap coverage">
+      <div class="coverage__copy">
+        <h2 id="coverage-title">Coverage across all 48 states</h2>
+        <p>Trucks dispatch from our home base in {company.city}, Missouri, and run coast to coast. Have a lane outside this map? Call dispatch and ask.</p>
+        <dl class="regions">
+          {regions.map((r) => (
+            <div>
+              <dt>{r.name}</dt>
+              <dd>{r.states.join(', ')}</dd>
+            </div>
+          ))}
+        </dl>
+        <p><a class="btn btn--white" href={company.phoneHref}>Call dispatch {company.phone}</a></p>
+      </div>
+      <UsMap />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="why-title">
+    <div class="wrap">
+      <div class="head-split">
+        <h2 id="why-title">Why shippers book T-LOGISTICS</h2>
+        <p>
+          Our operating authority is public record. Look up USDOT {company.dot} on the
+          {links.fmcsa ? <a href={links.fmcsa} target="_blank" rel="noopener">FMCSA SAFER system</a> : 'FMCSA SAFER system'} before you book.
+        </p>
+      </div>
+      <ul class="features">
+        {reasons.map((r) => (
+          <li class="feature">
+            <span class="feature__icon"><Icon name={r.icon} /></span>
+            <h3>{r.title}</h3>
+            <p>{r.body}</p>
+          </li>
+        ))}
+      </ul>
+      {reviews.length > 0 && (
+        <ul class="features" style="margin-top:48px">
+          {reviews.map((r) => (
+            <li class="feature"><blockquote style="margin:0"><p>{r.quote}</p><p class="muted">{r.name}, {r.company}</p></blockquote></li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+
+  <section class="section section--soft" aria-label="Get started">
+    <div class="wrap cta-pair">
+      <div class="cta-card cta-card--photo">
+        <Photo name="band-drivers" widths={[800, 1600]} sizes="(min-width: 900px) 600px, 100vw" width={1600} height={900} alt="" />
+        <h2>Drive with T-LOGISTICS</h2>
+        <p>Class A CDL drivers run Freightliner, Volvo and Mack trucks with inverters and automatic transmissions.</p>
+        <p><a class="btn btn--white" href={url('drivers/')}>See trucks and apply</a></p>
+      </div>
+      <div class="cta-card cta-card--blue">
+        <h2>Ready to ship?</h2>
+        <p>Tell us the pickup, the delivery and what is in the trailer. Dispatch replies with a rate.</p>
+        <div class="btn-row">
+          <a class="btn btn--white" href={url('quote/')}>Get a quote</a>
+          <a class="btn btn--light" href={company.phoneHref}>{company.phone}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

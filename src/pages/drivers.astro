@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import { company, fleet, links } from '../data/site';
+import { url } from '../lib/url';
+
+const hasTenstreet = Boolean(links.tenstreet);
+---
+<Base
+  title="Drive with T-LOGISTICS Inc | Class A CDL jobs"
+  description={`Class A CDL driving jobs with T-LOGISTICS Inc in ${company.city}, MO. See our Freightliner, Volvo and Mack trucks and apply.`}
+  current="drivers"
+>
+  <section class="page-hero">
+    <Photo name="band-drivers" widths={[800, 1600]} sizes="100vw" width={1600} height={900} alt="" eager />
+    <div class="wrap page-hero__inner">
+      <h1>Drive with T-LOGISTICS</h1>
+      <p class="lede">We hire Class A CDL drivers to run dry van freight across the 48 states. Here are the trucks you would drive and how to apply.</p>
+      <div class="btn-row">
+        {hasTenstreet ? (
+          <a class="btn btn--primary" href={links.tenstreet} target="_blank" rel="noopener">Apply on Tenstreet</a>
+        ) : (
+          <a class="btn btn--primary" href={company.phoneHref}>Call recruiting</a>
+        )}
+        <a class="btn btn--light" href="#fleet">See the trucks</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="fleet" aria-labelledby="fleet-title">
+    <div class="wrap">
+      <div class="head-split">
+        <h2 id="fleet-title">Our trucks</h2>
+        <p>Every truck in the fleet has an inverter and an automatic transmission.</p>
+      </div>
+      <ul class="fleet">
+        {fleet.map((t) => (
+          <li class="fleet-card">
+            <figure>
+              <Photo name={t.photo} sizes="(min-width: 768px) 380px, 100vw" alt={`${t.make} sleeper truck`} />
+              <figcaption>Sample photo</figcaption>
+            </figure>
+            <div class="fleet-card__body">
+              <h3>{t.make}</h3>
+              <ul class="checks">
+                {t.features.map((f) => <li>{f}</li>)}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--soft" id="apply" aria-labelledby="apply-title">
+    <div class="wrap form-layout">
+      <div class="split__copy">
+        <h2 id="apply-title">Apply to drive</h2>
+        {hasTenstreet ? (
+          <p>Applications go through Tenstreet. After you apply, our team contacts you about the next steps. Questions first? Call or email us.</p>
+        ) : (
+          <p>Call or email our team to apply. Have your Class A CDL details ready and we will walk you through the next steps.</p>
+        )}
+        <div class="btn-row">
+          {hasTenstreet && <a class="btn btn--primary" href={links.tenstreet} target="_blank" rel="noopener">Apply on Tenstreet</a>}
+          <a class={hasTenstreet ? 'btn btn--outline' : 'btn btn--primary'} href={company.phoneHref}>Call {company.phone}</a>
+          <a class="btn btn--outline" href={`mailto:${company.email}?subject=Driver%20application`}>Email us</a>
+        </div>
+      </div>
+      <div class="contact-card">
+        <dl>
+          <div><dt>Home base</dt><dd>{company.city}, {company.state}</dd></div>
+          <div><dt>Equipment</dt><dd>53 ft dry van</dd></div>
+          <div><dt>License</dt><dd>Class A CDL</dd></div>
+        </dl>
+        <p class="note">Shipping freight instead? <a href={url('quote/')}>Request a quote</a>.</p>
+      </div>
+    </div>
+  </section>
+</Base>
